@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="All in AROS_PATH_PLANNING_TEST" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" nameIsGenerated="true" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="AROSPathPlanning" TARGET_NAME="AROS_PATH_PLANNING_TEST" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="AROSPathPlanning" RUN_TARGET_NAME="AROS_PATH_PLANNING_TEST" TEST_MODE="SUITE_TEST">
+    <method v="2">
+      <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      <option name="BeforeTestRunTask" enabled="true" />
+    </method>
+  </configuration>
+</component>

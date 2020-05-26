@@ -3,4 +3,9 @@ project(AROSPathPlanning)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_library(AROSPathPlanning library.cpp library.hpp)
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+    set(AROS_PATH_PLANNING_TESTING TRUE)
+endif()
+
+add_subdirectory(lib)
+add_subdirectory(src)
