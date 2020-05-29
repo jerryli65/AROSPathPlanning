@@ -9,7 +9,6 @@ namespace aros_path_planning{
 }
 
 #ifdef AROS_PATH_PLANNING_TEST
-
 #include "gtest/gtest.h"
 
 TEST(LibraryTest, EqualityTest){
