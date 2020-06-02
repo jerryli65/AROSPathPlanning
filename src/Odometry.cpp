@@ -1,71 +1,48 @@
-#include <iostream>
-#include <iostream>
+#include "aros_path_planning/Odometry.hpp"
+
 #include <cmath>
-#include "odometry.hpp"
-#include <vector>
+#include <utility>
 
-using namespace std;
-
-struct position{ // class for tracking position
-    float x, y, h;
-    void reset(){
+namespace aros::path_panning{
+    auto Position::reset() -> void{
         x = 0;
         y = 0;
         h = 0;
     }
-};
 
-struct wayPoint{ // class for inputting waypoints
-    float x, y;
-};
-
-class path{ // class for creating a path for the robot to follow
-public:
-    vector<wayPoint> path;
-    void add(float x, float y){
-        path.push_back(wayPoint{x, y});
+    void Path::add(float x, float y){
+        path.push_back(WayPoint{x, y});
     }
-    void remove(int index){
+    void Path::remove(int index){
         path.erase(path.begin() + index);
     }
-    void clear(){
+    void Path::clear(){
         path.erase(path.begin() + path.size());
     }
-};
+    Path::Path(std::vector<WayPoint> path) : path(std::move(path)){
 
-class chassis{ // class for initializing the robot chassis as a variable
-    float lPrevError, rPrevError, rD, lD, lIntegral, rIntegral, kP, kI, kD;
-public:
-    position p;
-    float width/*wheel to wheel chassis width*/,
-            radius /*wheel radius*/,
-            encoderMax/*encoder ticks for 1 rotation*/,
-            threshold/*integral threshold for adding*/; //constants unique to each drive chassis
-    bool complete;
+    }
+    Path::Path(std::vector<WayPoint>&& path) : path(std::move(path)){
 
-    //sets up k constants for PID control
-    void setPID_const(float P, float I, float D){
+    }
+    Path::Path() : path(){
+
+    }
+    void ChassisDefinition::setPID_const(float P, float I, float D){
+
         kP = P;
         kI = I;
         kD = D;
-    }
 
-    void resetIntegrals(){
+    }
+    void ChassisDefinition::resetIntegrals(){
+
         lIntegral = 0;
         rIntegral = 0;
+
     }
+    auto ChassisDefinition::move(float distance, float left, float right, float waitTime){
 
-    /*to use:
-     * while(!chassisName.complete){
-     *      chassisName.move =
-     * }*/
-
-    auto move(/*simple PID controller*/
-            float distance/*target distance to reach*/,
-            float left/*encoder values of the left chassis*/,
-            float right/*encoder values of right chassis*/,
-            float waitTime/*waitTime between each cycle of the while loop*/
-    ){
         struct motorPower{
             float left, right;
         };
@@ -74,13 +51,13 @@ public:
         if(lError == 0 && rError == 0){
             return motorPower{0, 0};
         }
-        if(abs(distance - left) >= threshold){
+        if(std::abs(distance - left) >= threshold){
             lIntegral = 0;
         } else{
             lIntegral++;
         }
 
-        if(abs(distance - right) >= threshold){
+        if(std::abs(distance - right) >= threshold){
             rIntegral = 0;
         } else{
             rIntegral++;
@@ -95,5 +72,12 @@ public:
         lPrevError = lError;
         rPrevError = rError;
         return motorPower{leftPower, rightPower};
+
     }
-};
+    ChassisDefinition::ChassisDefinition(float l_prev_error, float r_prev_error, float r_d, float l_d, float l_integral, float r_integral, float k_p, float k_i, float k_d, const Position& p, float width, float radius, float encoder_max,
+                                         float threshold, bool complete) : lPrevError(l_prev_error), rPrevError(r_prev_error), rD(r_d), lD(l_d), lIntegral(l_integral), rIntegral(r_integral), kP(k_p), kI(k_i), kD(k_d), p(p), _width(width),
+                                                                           radius(radius), encoderMax(encoder_max), threshold(threshold), complete(complete){}
+    auto ChassisDefinition::width() const -> float{
+        return _width;
+    }
+}
