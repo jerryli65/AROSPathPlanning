@@ -2,19 +2,19 @@
 #include <utility>
 
 namespace aros::ChassisInit{
-    auto ChassisDefinition::radius() const -> float{
-        return _radius;
+    auto ChassisDefinition::diameter() const -> float{
+        return _diameter;
     }
-    auto ChassisDefinition::encoderMax() const -> float{
-        return _encoderMax;
+    auto ChassisDefinition::ticksPerRev() const -> float{
+        return _ticksPerRev;
     }
-    auto ChassisDefinition::sB() const -> float{
-        return _sB;
+    auto ChassisDefinition::Back() const -> float{
+        return _Back;
     }
-    auto ChassisDefinition::sR() const -> float{
-        return _sR;
+    auto ChassisDefinition::Right() const -> float{
+        return _Right;
     }
-    auto ChassisDefinition::sL() const -> float{
-        return _sL;
+    auto ChassisDefinition::Left() const -> float{
+        return _Left;
     }
 }
