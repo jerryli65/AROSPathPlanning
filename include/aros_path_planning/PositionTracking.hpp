@@ -52,6 +52,10 @@ namespace aros::PositionTracking{
          * @return returns the updated position of the robot
          */
         auto track(EncoderType right, EncoderType left, EncoderType back) -> Position<float>;
+        /**
+         * @param reset_state
+         * @return
+         */
         auto reset(const ResetState& reset_state);
 
         //Readable
