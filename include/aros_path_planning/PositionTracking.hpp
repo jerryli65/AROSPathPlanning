@@ -8,11 +8,15 @@
 #include <cstdint>
 
 #include "aros/Readable.hpp"
+/**
+ * PositionTracking.hpp and PositionTracking.cpp are files containing the functions
+ * dealing with the tracking of Robot position using encoder wheels
+ */
 
 using namespace aros::ChassisInit;
 
 namespace aros::PositionTracking{
-    typedef int64_t EncoderType;
+    typedef int64_t EncoderType; ///change datatype EncoderType depending on what values the encoders output
 
     template<typename T>
     struct Position{
@@ -23,7 +27,9 @@ namespace aros::PositionTracking{
          */
         T x, y, angle;
     };
-
+    /**
+     * stores the intended reset position
+     */
     struct ResetState{
         Position<float> position;
         EncoderType right_encoder;
@@ -40,11 +46,10 @@ namespace aros::PositionTracking{
     public:
         PositionTracker(const ResetState& reset_state, const ChassisDefinition& chassis_definition);
         /**
-         *
-         * @param right right tracking wheel encoder values
-         * @param left left tracking wheel encoder values
-         * @param back back tracking wheel encoder values
-         * @return returns the motor power values of the left and right chassis
+         * @param right : right tracking wheel encoder values
+         * @param left : left tracking wheel encoder values
+         * @param back : back tracking wheel encoder values
+         * @return returns the updated position of the robot
          */
         auto track(EncoderType right, EncoderType left, EncoderType back) -> Position<float>;
         auto reset(const ResetState& reset_state);

@@ -2,6 +2,9 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/lib/AROS" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/lib/AROS/lib/ctpl" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/lib/AROS/lib/googletest" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/lib/googletest" vcs="Git" />
   </component>
 </project>

@@ -1,26 +1,48 @@
 #include "aros_path_planning/PositionTracking.hpp"
 
-namespace aros::PositionTracking{
+namespace aros::PositionTracking{ /// namespace containing functions to track robot position
+    /**
+     *
+     * @param x : input Cartesian x-coordinate
+     * @param y : input Cartesian y-coordinate
+     * @param r_out : output Polar r-coordinate
+     * @param theta_out : output Polar theta coordinate
+     * @return : a Polar coordinate, given an input Cartesian coordinate
+     */
     template<typename T>
     inline auto CartesianToPolar(T x, T y, T& r_out, T& theta_out){
         r_out = sqrt(x * x + y * y);
         theta_out = atan(y / x);
     }
-
+    /**
+     *
+     * @param r : input Polar r-coordinate
+     * @param theta : input Polar theta coordinate
+     * @param x_out : output Cartesian x-coordinate
+     * @param y_out : output Cartesian y-coordinate
+     * @return : a Cartesian coordinate, given an input Polar coordinate
+     */
     template<typename T>
     inline auto PolarToCartesian(T r, T theta, T& x_out, T& y_out){
         x_out = r * cos(theta);
         y_out = r * sin(theta);
     }
-
+    /**
+     *
+     * @param x : input cartesian y-coordinate
+     * @param y : input cartesian x-coordiante
+     * @param rotate_theta : input change in theta
+     * @param x_out
+     * @param y_out
+     * @return
+     */
     template<typename T>
     inline auto Rotate(T x, T y, T rotate_theta, T& x_out, T& y_out){
         float r, theta;
         CartesianToPolar(x, y, r, theta);
-        theta += rotate_theta;
-        PolarToCartesian(r, theta, x_out, y_out);
+        theta += rotate_theta; ///Only changes the theta value
+        PolarToCartesian(r, theta, x_out, y_out); ///reverts coordinates back to cartesian
     }
-
     auto PositionTracker::track(EncoderType right, EncoderType left, EncoderType back) -> Position<float>{
         float delta_left = ((left - _last_left_position) / _chassis_definition.ticksPerRev()) * M_PI * _chassis_definition.diameter();
         float delta_right = ((right - _last_right_position) / _chassis_definition.ticksPerRev()) * M_PI * _chassis_definition.diameter();
@@ -35,7 +57,7 @@ namespace aros::PositionTracking{
         float delta_x_local;
         float delta_y_local;
         if(delta_theta == 0){
-            delta_x_local = delta_back; ///This works
+            delta_x_local = delta_back;
             delta_y_local = (delta_right + delta_left) / 2;
         } else{
             delta_x_local = 2 * sin(delta_theta) * (delta_back / delta_theta + _chassis_definition.Back());
@@ -59,7 +81,11 @@ namespace aros::PositionTracking{
 
         return _last_position;
     }
-
+    /**
+     *
+     * @param reset_state
+     * @param chassis_definition
+     */
     PositionTracker::PositionTracker(const ResetState& reset_state, const ChassisDefinition& chassis_definition) : _reset_state(reset_state), _last_position(reset_state.position), _chassis_definition(chassis_definition),
                                                                                                                    _last_left_position(reset_state.left_encoder), _last_right_position(reset_state.right_encoder),
                                                                                                                    _last_back_position(reset_state.back_encoder){}
