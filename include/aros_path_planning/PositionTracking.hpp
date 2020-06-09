@@ -3,10 +3,10 @@
 
 #endif //AROSPATHPLANNING_POSITIONTRACKING_HPP
 
-#include "Odometry.hpp"
+#include "ChassisDefinition.hpp"
 #include <cmath>
 #include <cstdint>
-
+#include "utils.hpp"
 #include "aros/Readable.hpp"
 /**
  * PositionTracking.hpp and PositionTracking.cpp are files containing the functions
@@ -16,15 +16,15 @@
 using namespace aros::ChassisInit;
 
 namespace aros::PositionTracking{
-    typedef int64_t EncoderType; ///change datatype EncoderType depending on what values the encoders output
+    //change datatype EncoderType depending on what values the encoders output
+    typedef int32_t EncoderType;
 
     template<typename T>
+    /** struct intended to store a position*/
     struct Position{
-        /**
-         * x: x position
+        /** x: x position
          * y: y position
-         * h: heading (or angle in relative to starting position)
-         */
+         * h: heading (or angle in relative to starting position) */
         T x, y, angle;
     };
     /**
@@ -37,6 +37,7 @@ namespace aros::PositionTracking{
         EncoderType back_encoder;
     };
 
+    ///Readable position values
     class PositionTracker: Readable<Position<float>>{
         Position<float> _last_position;
         const ChassisDefinition _chassis_definition;
@@ -45,18 +46,17 @@ namespace aros::PositionTracking{
 
     public:
         PositionTracker(const ResetState& reset_state, const ChassisDefinition& chassis_definition);
-        /**
+        /** Tracks the x-y position of the robot based on encoder wheel values
          * @param right : right tracking wheel encoder values
          * @param left : left tracking wheel encoder values
          * @param back : back tracking wheel encoder values
          * @return returns the updated position of the robot
          */
         auto track(EncoderType right, EncoderType left, EncoderType back) -> Position<float>;
-        /**
-         * @param reset_state
-         * @return
+        /** Resets the wheel encoder values to a "reset state" stored beforehand
+         * @param reset_state position to reset encoder values
          */
-        auto reset(const ResetState& reset_state);
+        auto reset(const ResetState& reset_state) -> void;
 
         //Readable
     private:

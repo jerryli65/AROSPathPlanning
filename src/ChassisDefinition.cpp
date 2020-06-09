@@ -1,4 +1,4 @@
-#include "aros_path_planning/Odometry.hpp"
+#include "aros_path_planning/ChassisDefinition.hpp"
 
 namespace aros::ChassisInit{
     auto ChassisDefinition::diameter() const -> float{

@@ -1,8 +1,9 @@
 set(
         AROS_PATH_PLANNING_SRC
-        Odometry.cpp
+        ChassisDefinition.cpp
         PositionTracking.cpp
         PathPlanning.cpp
+        utils.cpp
 )
 
 add_library(AROS_PATH_PLANNING STATIC ${AROS_PATH_PLANNING_SRC})
