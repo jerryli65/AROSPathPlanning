@@ -1,6 +1,5 @@
 set(
         AROS_PATH_PLANNING_SRC
-        library.cpp
         Odometry.cpp
         PositionTracking.cpp
         PathPlanning.cpp
