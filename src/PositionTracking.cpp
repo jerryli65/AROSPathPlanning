@@ -21,7 +21,7 @@ namespace aros::PositionTracking{
         PolarToCartesian(r, theta, x_out, y_out);
     }
 
-    auto PositionTracker::track(EncoderType right, EncoderType left, EncoderType back) -> Position{
+    auto PositionTracker::track(EncoderType right, EncoderType left, EncoderType back) -> Position<float>{
         float delta_left = ((left - _last_left_position) / _chassis_definition.ticksPerRev()) * M_PI * _chassis_definition.diameter();
         float delta_right = ((right - _last_right_position) / _chassis_definition.ticksPerRev()) * M_PI * _chassis_definition.diameter();
         float delta_back = ((back - _last_back_position) / _chassis_definition.ticksPerRev()) * M_PI * _chassis_definition.diameter();
@@ -57,7 +57,7 @@ namespace aros::PositionTracking{
         _last_right_position = right;
         _last_back_position = back;
 
-        return Position{_last_position};
+        return _last_position;
     }
 
     PositionTracker::PositionTracker(const ResetState& reset_state, const ChassisDefinition& chassis_definition) : _reset_state(reset_state), _last_position(reset_state.position), _chassis_definition(chassis_definition),
@@ -69,5 +69,8 @@ namespace aros::PositionTracking{
         _last_left_position = reset_state.left_encoder;
         _last_right_position = reset_state.right_encoder;
         _last_back_position = reset_state.back_encoder;
+    }
+    auto PositionTracker::value() -> Position<float>{
+        return _last_position;
     }
 }

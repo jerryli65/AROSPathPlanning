@@ -1,3 +1,6 @@
-if(AROS_PATH_PLANNING_TESTING)
-    add_subdirectory(googletest)
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+    if(AROS_PATH_PLANNING_TESTING)
+        add_subdirectory(googletest)
+    endif()
+    add_subdirectory(AROS)
 endif()

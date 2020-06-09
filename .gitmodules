@@ -1,3 +1,6 @@
 [submodule "lib/googletest"]
 	path = lib/googletest
 	url = https://github.com/google/googletest.git
+[submodule "lib/AROS"]
+	path = lib/AROS
+	url = https://github.com/Aggie-Robotics/AROS

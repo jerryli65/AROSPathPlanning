@@ -7,32 +7,36 @@
 #include <cmath>
 #include <cstdint>
 
+#include "aros/Readable.hpp"
+
 using namespace aros::ChassisInit;
 
 namespace aros::PositionTracking{
     typedef int64_t EncoderType;
 
+    template<typename T>
     struct Position{
         /**
          * x: x position
          * y: y position
          * h: heading (or angle in relative to starting position)
          */
-        float x, y, angle;
+        T x, y, angle;
     };
 
     struct ResetState{
-        Position position;
+        Position<float> position;
         EncoderType right_encoder;
         EncoderType left_encoder;
         EncoderType back_encoder;
     };
 
-    class PositionTracker{
-        Position _last_position;
+    class PositionTracker: Readable<Position<float>>{
+        Position<float> _last_position;
         const ChassisDefinition _chassis_definition;
         EncoderType _last_left_position, _last_right_position, _last_back_position;
         ResetState _reset_state;
+
     public:
         PositionTracker(const ResetState& reset_state, const ChassisDefinition& chassis_definition);
         /**
@@ -42,7 +46,11 @@ namespace aros::PositionTracking{
          * @param back back tracking wheel encoder values
          * @return returns the motor power values of the left and right chassis
          */
-        auto track(EncoderType right, EncoderType left, EncoderType back) -> Position;
+        auto track(EncoderType right, EncoderType left, EncoderType back) -> Position<float>;
         auto reset(const ResetState& reset_state);
+
+        //Readable
+    private:
+        auto value() -> Position<float> override;
     };
 }
