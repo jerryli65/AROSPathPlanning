@@ -1,8 +1,6 @@
 #ifndef AROSPATHPLANNING_POSITIONTRACKING_HPP
 #define AROSPATHPLANNING_POSITIONTRACKING_HPP
 
-#endif //AROSPATHPLANNING_POSITIONTRACKING_HPP
-
 #include "ChassisDefinition.hpp"
 #include <cmath>
 #include <cstdint>
@@ -14,11 +12,9 @@
  */
 
 using namespace aros::ChassisInit;
-
+using namespace aros::utils;
 namespace aros::PositionTracking{
     //change datatype EncoderType depending on what values the encoders output
-    typedef int32_t EncoderType;
-
     template<typename T>
     /** struct intended to store a position*/
     struct Position{
@@ -27,39 +23,50 @@ namespace aros::PositionTracking{
          * h: heading (or angle in relative to starting position) */
         T x, y, angle;
     };
+
+
     /**
      * stores the intended reset position
      */
+    template<typename EncoderType, typename T>
     struct ResetState{
-        Position<float> position;
+        Position<T> position;
         EncoderType right_encoder;
         EncoderType left_encoder;
         EncoderType back_encoder;
     };
 
+
+    template<typename EncoderType, typename T>
     ///Readable position values
-    class PositionTracker: Readable<Position<float>>{
-        Position<float> _last_position;
+    class PositionTracker: Readable<Position<T>>{
+        Position<T> _last_position;
         const ChassisDefinition _chassis_definition;
         EncoderType _last_left_position, _last_right_position, _last_back_position;
-        ResetState _reset_state;
+        ResetState<EncoderType, T> _reset_state;
+
 
     public:
-        PositionTracker(const ResetState& reset_state, const ChassisDefinition& chassis_definition);
+        PositionTracker(const ResetState<EncoderType, T>& reset_state, const ChassisDefinition& chassis_definition);
         /** Tracks the x-y position of the robot based on encoder wheel values
          * @param right : right tracking wheel encoder values
          * @param left : left tracking wheel encoder values
          * @param back : back tracking wheel encoder values
          * @return returns the updated position of the robot
          */
-        auto track(EncoderType right, EncoderType left, EncoderType back) -> Position<float>;
+        auto track(EncoderType right, EncoderType left, EncoderType back) -> Position<T>;
         /** Resets the wheel encoder values to a "reset state" stored beforehand
          * @param reset_state position to reset encoder values
          */
-        auto reset(const ResetState& reset_state) -> void;
+        auto reset(const ResetState<EncoderType, T>& reset_state) -> void;
+
 
         //Readable
     private:
         auto value() -> Position<float> override;
     };
 }
+
+#endif //AROSPATHPLANNING_POSITIONTRACKING_HPP
+
+

@@ -5,10 +5,8 @@
 #include <cstdint>
 
 namespace aros::ChassisInit{
-    /**
-     * Chassis definition
-     */
-    class ChassisDefinition{ /// class for initializing the robot chassis as a variable
+    /// class for initializing the robot chassis as a variable
+    class ChassisDefinition{
         ///constants unique to each drive chassis
         ///distances from turn center to wheel center for both wheels
         float _Right;
@@ -19,10 +17,15 @@ namespace aros::ChassisInit{
         ///encoder ticks for 1 rotation
         float _ticksPerRev;
     public:
+        ///Returns Back wheel to turn center value
         [[nodiscard]] auto Back() const -> float;
+        ///Returns Right wheel to turn center value
         [[nodiscard]] auto Right() const -> float;
+        ///Returns Left wheel to turn center value
         [[nodiscard]] auto Left() const -> float;
+        ///Returns Wheel diameter Value
         [[nodiscard]] auto diameter() const -> float;
+        ///Returns the number of ticks per revolution on the used encoder
         [[nodiscard]] auto ticksPerRev() const -> float;
     };
 }
