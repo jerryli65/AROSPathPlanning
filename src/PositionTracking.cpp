@@ -1,5 +1,7 @@
 #include "aros_path_planning/PositionTracking.hpp"
 
+//NOTE: Do not auto-format, this formatting doesn't like that
+
 namespace aros::PositionTracking{ // namespace containing functions to track robot position
 
 
