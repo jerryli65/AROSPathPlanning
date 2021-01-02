@@ -1,8 +1,6 @@
-#include "aros_path_planning/PositionTracking.hpp"
-
 #ifndef AROSPATHPLANNING_PATHPLANNING_HPP
 #define AROSPATHPLANNING_PATHPLANNING_HPP
-#endif //AROSPATHPLANNING_PATHPLANNING_HPP
+#include "aros_path_planning/PositionTracking.hpp"
 
 namespace aros::PathPlanning{
     class Path{
@@ -18,3 +16,5 @@ namespace aros::PathPlanning{
         ChassisDefinition _definition;
     };
 }
+
+#endif //AROSPATHPLANNING_PATHPLANNING_HPP

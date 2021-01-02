@@ -1,5 +1,5 @@
 #include "aros_path_planning/PositionTracking.hpp"
-
+// TODO: How many wheels does each robot have? What is the language standard, 11 or 17? docs.idew.org code robotics encoders
 //NOTE: Do not auto-format, this formatting doesn't like that
 
 namespace aros::PositionTracking{ // namespace containing functions to track robot position
@@ -32,9 +32,10 @@ namespace aros::PositionTracking{ // namespace containing functions to track rob
 
         /* Step 6: If the change in angle is 0, local offset is just (x: back wheel, y: average between left and right wheels)
          *  Otherwise, calculate offset based off of back, left, and right wheels and the change in angle */
+        // TODO: UNDERSTAND THIS CODE
         if(delta_theta == 0){
             delta_x_local = delta_back;
-            delta_y_local = (delta_right + delta_left) / 2;
+            delta_y_local = (delta_right + delta_left) / 2; // NOTE: just delta_right or delta_left
         } else{
             delta_x_local = 2 * sin(delta_theta) * (delta_back / delta_theta + _chassis_definition.Back());
             float y_r = 2 * sin(delta_theta) * (delta_right / delta_theta + _chassis_definition.Right());
@@ -42,11 +43,11 @@ namespace aros::PositionTracking{ // namespace containing functions to track rob
             delta_y_local = (y_r + y_l) / 2;
         }
         /* Step 7: Calculate average orientation */
-        float theta_average = _reset_state.position.angle + delta_theta / 2;
+        float theta_average = _reset_state.position.angle + delta_theta / 2;  //NOTE: should reset_state.position.angle be _last_position.angle ?
 
         float delta_x, delta_y;
         /* Step 8: Calculate global offset by "rotating" local offset by the average orientation */
-        Rotate(delta_x_local, delta_y_local, -theta_average, delta_x, delta_y);
+        Rotate(delta_x_local, delta_y_local, -theta_average, delta_x, delta_y); //NOTE: What does theta_average do?
 
         /* Step 9: Calculate new absolute position */
         _last_position.x += delta_x;

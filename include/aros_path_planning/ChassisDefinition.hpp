@@ -1,6 +1,5 @@
-#ifndef AROSPATHPLANNING_ODOMETRY_HPP
-#define AROSPATHPLANNING_ODOMETRY_HPP
-#endif //AROSPATHPLANNING_ODOMETRY_HPP
+#ifndef AROSPATHPLANNING_CHASSISDEFINITION_HPP
+#define AROSPATHPLANNING_CHASSISDEFINITION_HPP
 #include <vector>
 #include <cstdint>
 
@@ -29,5 +28,4 @@ namespace aros::ChassisInit{
         [[nodiscard]] auto ticksPerRev() const -> float;
     };
 }
-
-
+#endif //AROSPATHPLANNING_CHASSISDEFINITION_HPP
